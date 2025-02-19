@@ -82,6 +82,11 @@
             background: linear-gradient(90deg, #FF0000, #FFA500);
             border-radius: 15px;
             transition: width 0.5s ease-in-out;
+            text-align: center;
+            color: #FFF;
+            font-size: 18px;
+            line-height: 30px;
+            font-weight: bold;
         }
 
         #message {
@@ -112,7 +117,7 @@
         </div>
 
         <div class="progress-bar">
-            <div id="progress"></div>
+            <div id="progress">0.00 €</div>
         </div>
 
         <p id="message">¡Has alcanzado la meta! 🎉</p>
@@ -141,7 +146,7 @@
             let porcentaje = (dineroActual / meta) * 100;
             porcentaje = Math.min(porcentaje, 100);
             progressBar.style.width = porcentaje + "%";
-            inputCantidad.value = dineroActual.toFixed(2);
+            progressBar.textContent = dineroActual.toFixed(2) + " €";  // Mostrar el dinero en la barra
 
             if (dineroActual >= meta) {
                 message.classList.add("goal-achieved");
@@ -165,3 +170,4 @@
     </script>
 </body>
 </html>
+
