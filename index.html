@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -110,7 +108,7 @@
         <div class="input-container">
             <label for="cantidad" style="font-size: 22px;">Introduce la cantidad (€):</label>
             <br>
-            <input type="number" id="cantidad" step="0.01" min="0" oninput="actualizarInterfaz()">
+            <input type="number" id="cantidad" step="0.01" min="0" oninput="actualizarInterfaz()" onkeydown="procesarEnter(event)">
         </div>
 
         <div class="progress-bar">
@@ -122,6 +120,8 @@
 
     <script>
         const meta = 23.80;
+        let dineroActual = 0;
+
         const inputCantidad = document.getElementById("cantidad");
         const progressBar = document.getElementById("progress");
         const message = document.getElementById("message");
@@ -130,27 +130,35 @@
         document.addEventListener("DOMContentLoaded", function () {
             let dineroGuardado = localStorage.getItem("dinero");
             if (dineroGuardado) {
-                inputCantidad.value = dineroGuardado;
+                dineroActual = parseFloat(dineroGuardado);
+                inputCantidad.value = dineroActual.toFixed(2);
             }
             actualizarInterfaz();
         });
 
+        // Función que actualiza la interfaz (barra de progreso y mensaje)
         function actualizarInterfaz() {
-            let cantidad = parseFloat(inputCantidad.value) || 0;
-
-            // Guardar en caché (LocalStorage)
-            localStorage.setItem("dinero", cantidad);
-
-            // Actualizar barra de progreso
-            let porcentaje = (cantidad / meta) * 100;
+            let porcentaje = (dineroActual / meta) * 100;
             porcentaje = Math.min(porcentaje, 100);
             progressBar.style.width = porcentaje + "%";
+            inputCantidad.value = dineroActual.toFixed(2);
 
-            // Mostrar mensaje si se alcanza la meta
-            if (cantidad >= meta) {
+            if (dineroActual >= meta) {
                 message.classList.add("goal-achieved");
             } else {
                 message.classList.remove("goal-achieved");
+            }
+
+            // Guardar en LocalStorage
+            localStorage.setItem("dinero", dineroActual.toFixed(2));
+        }
+
+        // Función que maneja el evento "Enter"
+        function procesarEnter(event) {
+            if (event.key === 'Enter') {
+                let cantidad = parseFloat(inputCantidad.value) || 0;
+                dineroActual += cantidad;
+                actualizarInterfaz();
             }
         }
     </script>
