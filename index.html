@@ -17,7 +17,7 @@
         .container {
             max-width: 400px;
             margin: 50px auto;
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 0, 0, 0.7);
             padding: 20px;
             border-radius: 12px;
             box-shadow: 0px 0px 15px rgba(255, 0, 0, 0.7);
@@ -29,31 +29,21 @@
             margin-bottom: 10px;
         }
 
-        .description {
-            font-size: 16px;
-            margin-bottom: 20px;
-            color: #FFF;
-        }
-
-        .goal {
-            font-size: 22px;
+        .price {
+            font-size: 20px;
             font-weight: bold;
-            margin-bottom: 15px;
         }
 
         .input-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 15px;
+            margin: 20px 0;
         }
 
-        input[type="number"] {
+        input {
             font-size: 24px;
             font-weight: bold;
             padding: 10px;
             text-align: center;
-            width: 100px;
+            width: 150px;
             border: 3px solid #FFD700;
             border-radius: 8px;
             background-color: #003366;
@@ -62,31 +52,9 @@
             transition: 0.3s;
         }
 
-        input[type="number"]:focus {
+        input:focus {
             border-color: #FF0000;
             box-shadow: 0 0 10px #FF0000;
-        }
-
-        input[type="range"] {
-            width: 80%;
-            margin-top: 10px;
-            -webkit-appearance: none;
-            appearance: none;
-            height: 8px;
-            background: #FFD700;
-            border-radius: 5px;
-            outline: none;
-            transition: background 0.3s;
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            background: #FF0000;
-            border-radius: 50%;
-            cursor: pointer;
         }
 
         .progress-bar {
@@ -125,17 +93,12 @@
 <body>
     <div class="container">
         <h1>💰 Contador de Dinero</h1>
-        <p class="description">
-            Esta página te ayuda a llevar la cuenta de cuánto dinero has ahorrado 
-            para comprar la camiseta de Jesús Navas de 2010. La meta es llegar a 23,80 €.
-        </p>
-
-        <p class="goal">Meta: 23,80 €</p>
+        <p class="price">Meta: 23,80 €</p>
 
         <div class="input-container">
-            <label for="cantidad">Introduce tu dinero:</label>
-            <input type="number" id="cantidad" step="0.01" min="0" max="23.80" oninput="actualizarInterfaz()">
-            <input type="range" id="slider" min="0" max="23.80" step="0.01" oninput="actualizarDesdeSlider()">
+            <label for="cantidad">Introduce la cantidad (€):</label>
+            <br>
+            <input type="number" id="cantidad" step="0.01" min="0" oninput="actualizarInterfaz()">
         </div>
 
         <div class="progress-bar">
@@ -148,7 +111,6 @@
     <script>
         const meta = 23.80;
         const inputCantidad = document.getElementById("cantidad");
-        const slider = document.getElementById("slider");
         const progressBar = document.getElementById("progress");
         const message = document.getElementById("message");
 
@@ -157,7 +119,6 @@
             let dineroGuardado = localStorage.getItem("dinero");
             if (dineroGuardado) {
                 inputCantidad.value = dineroGuardado;
-                slider.value = dineroGuardado;
             }
             actualizarInterfaz();
         });
@@ -167,7 +128,6 @@
 
             // Guardar en caché (LocalStorage)
             localStorage.setItem("dinero", cantidad);
-            slider.value = cantidad;
 
             // Actualizar barra de progreso
             let porcentaje = (cantidad / meta) * 100;
@@ -181,11 +141,7 @@
                 message.classList.remove("goal-achieved");
             }
         }
-
-        function actualizarDesdeSlider() {
-            inputCantidad.value = slider.value;
-            actualizarInterfaz();
-        }
     </script>
 </body>
 </html>
+
