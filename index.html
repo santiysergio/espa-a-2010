@@ -108,7 +108,7 @@
         <div class="input-container">
             <label for="cantidad" style="font-size: 22px;">Introduce la cantidad (€):</label>
             <br>
-            <input type="number" id="cantidad" step="0.01" min="0" oninput="actualizarInterfaz()" onkeydown="procesarEnter(event)">
+            <input type="text" id="cantidad" placeholder="Ejemplo: 1.20 o -1.20" onkeydown="procesarEnter(event)">
         </div>
 
         <div class="progress-bar">
@@ -153,11 +153,12 @@
             localStorage.setItem("dinero", dineroActual.toFixed(2));
         }
 
-        // Función que maneja el evento "Enter"
+        // Función que maneja el evento "Enter" para sumar/restar
         function procesarEnter(event) {
             if (event.key === 'Enter') {
                 let cantidad = parseFloat(inputCantidad.value) || 0;
                 dineroActual += cantidad;
+                inputCantidad.value = '';  // Limpiar campo después de procesar
                 actualizarInterfaz();
             }
         }
